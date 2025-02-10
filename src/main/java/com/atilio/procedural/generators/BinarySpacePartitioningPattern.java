@@ -1,14 +1,13 @@
 package com.atilio.procedural.generators;
 
 import java.util.List;
-
+import com.atilio.procedural.entities.BinaryTreeNode;
 import com.atilio.procedural.entities.CellCoordinates;
 import com.atilio.procedural.entities.MainMatrix;
 import com.atilio.procedural.entities.SubMatrix;
-import com.atilio.procedural.exceptions.AppException;
+import com.atilio.procedural.mics.PrintToConsoleFunctions;
 
 import java.util.ArrayList;
-
 import java.util.Random;
 
 public class BinarySpacePartitioningPattern extends MainPattern {
@@ -29,18 +28,16 @@ public class BinarySpacePartitioningPattern extends MainPattern {
         List<SubMatrix> subMatrices = new ArrayList<>();
         CellCoordinates initialCell = new CellCoordinates(0, 0);
         int recursionLevel = 0;
-        // splitSpace(subMatrices, initialCell, matrixToUse.getRows(),
-        // matrixToUse.getCols(), recursionLevel);
         SubMatrix root = new SubMatrix(initialCell, matrixToUse.getRows(), matrixToUse.getCols());
         subMatrices.add(root);
-        splitSpace(subMatrices, root, recursionLevel);
-
+        BinaryTreeNode<SubMatrix> tree = new BinaryTreeNode<>(root, null, null);
+        splitSpace(subMatrices, root, recursionLevel, tree);
+        PrintToConsoleFunctions.printTreeBreadthFirst(tree, subMatrices.size());
         drawInMainMatrix(subMatrices);
     }
 
     private void drawInMainMatrix(List<SubMatrix> subMatrices) {
         for (int i = 0; i < subMatrices.size(); i++) {
-            System.out.println(subMatrices.get(i).toString());
             if (i > 0) {
                 CellCoordinates position = subMatrices.get(i).getInitalCell();
                 for (int j = 0; j < subMatrices.get(i).getRows(); j++) {
@@ -49,11 +46,11 @@ public class BinarySpacePartitioningPattern extends MainPattern {
                     }
                 }
             }
-            System.out.println("*----------------------*");
         }
     }
 
-    private void splitSpace(List<SubMatrix> matrices, SubMatrix root, int recursionLevel) {
+    private void splitSpace(List<SubMatrix> matrices, SubMatrix root, int recursionLevel,
+            BinaryTreeNode<SubMatrix> tree) {
         System.out.println("voy por " + recursionLevel);
         if (recursionLevel > RECURSIVITY_LEVEL) {
             return;
@@ -105,33 +102,16 @@ public class BinarySpacePartitioningPattern extends MainPattern {
             matrices.add(rightSubMatrix);
         }
         if (leftSubMatrix != null && !root.equals(leftSubMatrix)) {
-
-            splitSpace(matrices, leftSubMatrix, recursionLevel);
+            BinaryTreeNode<SubMatrix> lefTreeNode = new BinaryTreeNode<SubMatrix>(
+                    leftSubMatrix, null, null);
+            tree.setNodeLeft(lefTreeNode);
+            splitSpace(matrices, leftSubMatrix, recursionLevel, lefTreeNode);
         }
         if (rightSubMatrix != null && !root.equals(rightSubMatrix)) {
-
-            splitSpace(matrices, rightSubMatrix, recursionLevel);
-        }
-    }
-
-    private void splitSpace(List<SubMatrix> matrices, CellCoordinates coordinates, int rows, int cols,
-            int recursionLevel) {
-        if (recursionLevel > RECURSIVITY_LEVEL) {
-            return;
-        }
-        int newRecursionLevel = recursionLevel + 1;
-        SubMatrix pivot = new SubMatrix(coordinates, rows, cols);
-        matrices.add(pivot);
-        float chance = myRandom.nextFloat();
-        int newCols = cols;
-        int newRows = rows;
-        if (chance < 0.5) {
-            newRows = (int) Math.floor(rows / 2d);
-        } else {
-            newCols = (int) Math.floor(cols / 2d);
-        }
-        if ((newRows * newCols) >= 2) {
-            splitSpace(matrices, coordinates, newRows, newCols, newRecursionLevel);
+            BinaryTreeNode<SubMatrix> righTreeNode = new BinaryTreeNode<SubMatrix>(
+                    rightSubMatrix, null, null);
+            tree.setNodeRight(righTreeNode);
+            splitSpace(matrices, rightSubMatrix, recursionLevel, righTreeNode);
         }
     }
 
