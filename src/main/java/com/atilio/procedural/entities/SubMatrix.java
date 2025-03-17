@@ -40,10 +40,10 @@ public class SubMatrix {
     }
 
     public boolean isCellInMatrix(CellCoordinates cell) {
-        if (cell.getRow() < initalCell.getRow() || cell.getRow() > initalCell.getRow() + rows) {
+        if (cell.getRow() < initalCell.getRow() || cell.getRow() > (initalCell.getRow() + rows - 1)) {
             return false;
         }
-        return !(cell.getColumn() < initalCell.getColumn() || cell.getColumn() > initalCell.getColumn() + columns);
+        return !(cell.getColumn() < initalCell.getColumn() || cell.getColumn() > (initalCell.getColumn() + columns - 1));
     }
 
     @Override

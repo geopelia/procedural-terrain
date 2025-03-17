@@ -31,10 +31,6 @@ public class CellCoordinates {
         this.column = column;
     }
 
-    public int getArea() {
-        return row * column;
-    }
-
     @Override
     public String toString() {
         return "CellCoordinates [row=" + row + ", column=" + column + "]";

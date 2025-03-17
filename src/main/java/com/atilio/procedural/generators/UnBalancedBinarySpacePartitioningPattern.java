@@ -5,17 +5,18 @@ import com.atilio.procedural.entities.BinaryTreeNode;
 import com.atilio.procedural.entities.CellCoordinates;
 import com.atilio.procedural.entities.MainMatrix;
 import com.atilio.procedural.entities.SubMatrix;
+import com.atilio.procedural.mics.BinaryTreeValidator;
 import com.atilio.procedural.mics.PrintToConsoleFunctions;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BinarySpacePartitioningPattern extends MainPattern {
+public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
 
     private Random myRandom;
     private static final int RECURSIVITY_LEVEL = 8; // max value 6 please
 
-    public BinarySpacePartitioningPattern(MainMatrix matrix) {
+    public UnBalancedBinarySpacePartitioningPattern(MainMatrix matrix) {
         super(matrix);
         myRandom = new Random();
     }
@@ -34,6 +35,11 @@ public class BinarySpacePartitioningPattern extends MainPattern {
         splitSpace(subMatrices, root, recursionLevel, tree);
         PrintToConsoleFunctions.printTreeBreadthFirst(tree, subMatrices.size());
         drawInMainMatrix(subMatrices);
+        if (BinaryTreeValidator.isCompleteTree(tree)) {
+            System.out.println("es completo");
+        } else {
+            System.out.println("no hay completo");
+        }
     }
 
     private void drawInMainMatrix(List<SubMatrix> subMatrices) {

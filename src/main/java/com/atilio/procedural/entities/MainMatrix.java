@@ -57,19 +57,30 @@ public class MainMatrix {
         return rows * cols;
     }
 
-    public void setValue(int positionOfElement, int value) {
+    public void setValue(int positionOfElement, int value) throws AppException {
+        if (positionOfElement > getSize() || positionOfElement < 1) {
+            throw new AppException("Posición inválida");
+        }
         CellCoordinates cellCoordinates = transformPositionInCellCoordinates(positionOfElement);
         matrix[cellCoordinates.getRow()][cellCoordinates.getColumn()] = value;
     }
 
     private CellCoordinates transformPositionInCellCoordinates(int positionOfElement) {
         CellCoordinates coordinates;
-        if (positionOfElement < cols) {
-            coordinates = new CellCoordinates(0, positionOfElement);
+        if (positionOfElement <= cols) {
+            coordinates = new CellCoordinates(0, positionOfElement - 1);
         } else {
-            int row = positionOfElement / cols;
-            int col = positionOfElement % cols;
+            int row = -1;
+            int col =  -1;
+            if (positionOfElement % cols == 0) {
+                row = (positionOfElement / cols) - 1;
+                col = cols - 1;
+            } else {
+                row = positionOfElement / cols;
+                col = (positionOfElement  % cols) - 1;
+            }
             coordinates = new CellCoordinates(row, col);
+
         }
         return coordinates;
     }

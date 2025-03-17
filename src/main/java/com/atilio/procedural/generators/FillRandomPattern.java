@@ -26,7 +26,12 @@ public class FillRandomPattern extends MainPattern {
         List<Integer> positionsUsed = new ArrayList<>();
         for (int i = 0; i < rowsToUse; i++) {
             position = generateUniqueRandomPosition(positionsUsed);
-            matrixToUse.setValue(position, 1);
+            try {
+                matrixToUse.setValue(position, 1);
+            } catch (AppException e) {
+                e.printStackTrace();
+                return;
+            }
 
         }
 

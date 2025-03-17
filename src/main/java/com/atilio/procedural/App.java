@@ -4,8 +4,9 @@ import java.awt.EventQueue;
 
 import com.atilio.procedural.entities.MainMatrix;
 import com.atilio.procedural.exceptions.AppException;
-import com.atilio.procedural.generators.BinarySpacePartitioningPattern;
+import com.atilio.procedural.generators.UnBalancedBinarySpacePartitioningPattern;
 import com.atilio.procedural.generators.DiagonalLinePattern;
+import com.atilio.procedural.generators.EnhancedBSPPattern;
 import com.atilio.procedural.generators.FillRandomPattern;
 import com.atilio.procedural.generators.MainPattern;
 import com.atilio.procedural.panels.AppFrame;
@@ -16,7 +17,7 @@ import com.atilio.procedural.panels.AppFrame;
 public class App {
     public static void main(String[] args) {
         System.out.println("Deplegando!");
-        int option = 3;
+        int option = 4;
         int cellToUSe = 23;
         MainMatrix mainMatrix;
         try {
@@ -31,7 +32,10 @@ public class App {
                     pattern = new FillRandomPattern(mainMatrix, cellToUSe);
                     break;
                 case 3:
-                    pattern = new BinarySpacePartitioningPattern(mainMatrix);
+                    pattern = new UnBalancedBinarySpacePartitioningPattern(mainMatrix);
+                    break;
+                case 4:
+                    pattern = new EnhancedBSPPattern(mainMatrix);
                     break;
 
                 default:
