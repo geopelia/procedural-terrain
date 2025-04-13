@@ -2,10 +2,10 @@ package com.atilio.procedural.entities;
 
 import com.atilio.procedural.mics.BinaryTreeValidator;
 
-public class BinaryTree {
-    private BinaryTreeNode<SubMatrix> root = null;
+public class BinaryTreeString {
+    private BinaryTreeNode<String> root = null;
 
-    private BinaryTreeNode<SubMatrix> addRecursive(BinaryTreeNode<SubMatrix> current, SubMatrix value) {
+    private BinaryTreeNode<String> addRecursive(BinaryTreeNode<String> current, String value) {
         if (current == null) {
             return new BinaryTreeNode<>(value);
         }
@@ -17,6 +17,7 @@ public class BinaryTree {
             if (BinaryTreeValidator.getNodeHeight(current.getNodeLeft()) <= BinaryTreeValidator
                     .getNodeHeight(current.getNodeRight())) {
                 if (BinaryTreeValidator.isAlmostPerfectTree(current.getNodeRight())) {
+
                     addRecursive(current.getNodeLeft(), value);
                 } else {
                     addRecursive(current.getNodeRight(), value);
@@ -32,15 +33,15 @@ public class BinaryTree {
         return current;
     }
 
-    public void addNode(SubMatrix value) {
+    public void addNode(String value) {
         root = addRecursive(root, value);
     }
 
-    public BinaryTreeNode<SubMatrix> getRoot() {
+    public BinaryTreeNode<String> getRoot() {
         return root;
     }
 
-    public void setRoot(BinaryTreeNode<SubMatrix> root) {
+    public void setRoot(BinaryTreeNode<String> root) {
         this.root = root;
     }
 

@@ -35,7 +35,7 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
         splitSpace(subMatrices, root, recursionLevel, tree);
         PrintToConsoleFunctions.printTreeBreadthFirst(tree, subMatrices.size());
         drawInMainMatrix(subMatrices);
-        if (BinaryTreeValidator.isCompleteTree(tree)) {
+        if (BinaryTreeValidator.isFullTree(tree)) {
             System.out.println("es completo");
         } else {
             System.out.println("no hay completo");

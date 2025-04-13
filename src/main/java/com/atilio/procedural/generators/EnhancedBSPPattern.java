@@ -26,7 +26,6 @@ public class EnhancedBSPPattern  extends MainPattern{
         CellCoordinates initialCell = new CellCoordinates(0, 0);
         SubMatrix root = new SubMatrix(initialCell, matrixToUse.getRows(), matrixToUse.getCols());
         subMatrices.add(root);
-//        BinaryTree<BinaryTreeNode<SubMatrix>> binaryTree = new BinaryTree<>();
         BinaryTree binaryTree = new BinaryTree();
         binaryTree.addNode(root);
         int size = 1;
@@ -61,7 +60,7 @@ public class EnhancedBSPPattern  extends MainPattern{
             size = size +2;
         }
         System.out.println(binaryTree);
-        BinaryTreeValidator.isCompleteTree(binaryTree.getRoot());
+        BinaryTreeValidator.isFullTree(binaryTree.getRoot());
 
 
     }

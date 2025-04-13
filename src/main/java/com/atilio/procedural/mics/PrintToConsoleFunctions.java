@@ -22,7 +22,7 @@ public class PrintToConsoleFunctions {
             sizes[j - 1] = CustomMathFunctions.getTreeSize(j);
         }
         int i = 0;
-        int nivel = 0;
+        int nivel = 1;
         while (!queue.isEmpty()) {
             current = queue.remove();
             System.out.println("elem: " + current.getElement() + " hash: " + current.hashCode());

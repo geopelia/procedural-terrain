@@ -39,7 +39,7 @@ public class FillRandomPattern extends MainPattern {
 
     private int generateUniqueRandomPosition(List<Integer> positionsUsed) {
         int position = myRandom.nextInt(matrixToUse.getSize());
-        while (positionsUsed.contains(position)) {
+        while (positionsUsed.contains(position) || position == 0) {
             position = myRandom.nextInt(matrixToUse.getSize());
         }
         positionsUsed.add(position);
