@@ -5,7 +5,7 @@ import com.atilio.procedural.entities.MainMatrix;
 public abstract class MainPattern {
     protected MainMatrix matrixToUse;
 
-    public MainPattern(MainMatrix matrix){
+    protected MainPattern(MainMatrix matrix){
         this.matrixToUse = matrix;
     }
 

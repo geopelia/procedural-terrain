@@ -3,12 +3,11 @@ package com.atilio.procedural;
 import java.awt.EventQueue;
 
 import com.atilio.procedural.entities.MainMatrix;
-import com.atilio.procedural.exceptions.AppException;
-import com.atilio.procedural.generators.UnBalancedBinarySpacePartitioningPattern;
 import com.atilio.procedural.generators.DiagonalLinePattern;
 import com.atilio.procedural.generators.EnhancedBSPPattern;
 import com.atilio.procedural.generators.FillRandomPattern;
 import com.atilio.procedural.generators.MainPattern;
+import com.atilio.procedural.generators.UnBalancedBinarySpacePartitioningPattern;
 import com.atilio.procedural.panels.AppFrame;
 
 /**
@@ -17,11 +16,11 @@ import com.atilio.procedural.panels.AppFrame;
 public class App {
     public static void main(String[] args) {
         System.out.println("Deplegando!");
-        int option = 4;
+        int option = 3;
         int cellToUSe = 23;
         MainMatrix mainMatrix;
         try {
-            mainMatrix = new MainMatrix(5,5);
+            mainMatrix = new MainMatrix(1,9);
             mainMatrix.fillWithZero();
             MainPattern pattern;
             switch (option) {

@@ -85,13 +85,13 @@ public class MainMatrix {
         return coordinates;
     }
 
-    public void printToExport() {
+    public String printToExport() {
         StringBuilder value =  new StringBuilder();
         for (int[] row : matrix) {
-            value.append(Arrays.toString(row).replace("[", " ").replace("]", " "));
+            value.append(Arrays.toString(row).replace("[", " ").replace("]", " ").trim());
             value.append("\n");
         }
-        System.out.println(value);
+        return value.toString().trim();
     }
 
 }

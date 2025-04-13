@@ -33,7 +33,7 @@ public class CellCoordinates {
 
     @Override
     public String toString() {
-        return "CellCoordinates [row=" + row + ", column=" + column + "]";
+        return "CellCoordinates [row=" + (row +  1) + ", column=" + (column + 1) + "]";
     }
 
     @Override
