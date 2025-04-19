@@ -1,5 +1,6 @@
 package com.atilio.procedural.mics;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -9,10 +10,11 @@ public class PrintToConsoleFunctions {
     private PrintToConsoleFunctions() {
     }
 
-    public static <T> void printTreeBreadthFirst(BinaryTreeNode<T> tree, int elementsSize) {
+    public static <T extends Serializable> String printTreeBreadthFirst(BinaryTreeNode<T> tree, int elementsSize) {
         if (tree == null) {
-            return;
+            return "";
         }
+        StringBuilder stringBuilder = new StringBuilder();
         Queue<BinaryTreeNode<T>> queue = new LinkedList<>();
         BinaryTreeNode<T> current;
         queue.add(tree);
@@ -25,7 +27,7 @@ public class PrintToConsoleFunctions {
         int nivel = 1;
         while (!queue.isEmpty()) {
             current = queue.remove();
-            System.out.println("elem: " + current.getElement() + " hash: " + current.hashCode());
+            stringBuilder.append("elem: " + current.getElement() + " hash: " + current.hashCode() + "\n");
             if (current.getNodeLeft() != null) {
                 queue.add(current.getNodeLeft());
             }
@@ -33,14 +35,15 @@ public class PrintToConsoleFunctions {
                 queue.add(current.getNodeRight());
             }
             if (isInArray(i, sizes)) {
-                System.out.println("=======================> nivel " + nivel++);
+                stringBuilder.append("=======================> nivel " + nivel++ + "\n");
             }
             i++;
 
         }
+        return stringBuilder.toString();
     }
 
-    public static <T> void printTreePreOrder(BinaryTreeNode<T> tree) {
+    public static <T extends Serializable> void printTreePreOrder(BinaryTreeNode<T> tree) {
         if (tree == null) {
             return;
         }

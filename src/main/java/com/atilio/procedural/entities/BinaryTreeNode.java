@@ -1,6 +1,8 @@
 package com.atilio.procedural.entities;
 
-public class BinaryTreeNode<T> {
+import java.io.Serializable;
+
+public class BinaryTreeNode<T extends Serializable> implements Serializable {
     private T element;
     private BinaryTreeNode<T> nodeLeft;
     private BinaryTreeNode<T> nodeRight;

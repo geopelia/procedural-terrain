@@ -1,5 +1,7 @@
 package com.atilio.procedural.mics;
 
+import java.io.Serializable;
+
 import com.atilio.procedural.entities.BinaryTreeNode;
 
 public class BinaryTreeValidator {
@@ -13,7 +15,7 @@ public class BinaryTreeValidator {
      * @param binaryTreeNode My node that represent a binary tree.
      * @return If the tree is full or not.
      */
-    public static <T> boolean isFullTree(BinaryTreeNode<T> binaryTreeNode) {
+    public static <T extends Serializable> boolean isFullTree(BinaryTreeNode<T> binaryTreeNode) {
         boolean hasLeft = false;
         boolean hasRight = false;
         boolean result = false;
@@ -33,18 +35,18 @@ public class BinaryTreeValidator {
 
     }
 
-    public static <T> boolean areChildrenSameHeight(BinaryTreeNode<T> node) {
+    public static <T extends Serializable> boolean areChildrenSameHeight(BinaryTreeNode<T> node) {
         if (node == null) {
             return true;
         }
         return getNodeHeight(node.getNodeLeft()) == getNodeHeight(node.getNodeRight());
     }
 
-    public static <T> boolean isCompleteNode(BinaryTreeNode<T> node) {
+    public static <T extends Serializable> boolean isCompleteNode(BinaryTreeNode<T> node) {
         return (node != null) && (node.getNodeLeft() != null) && (node.getNodeRight() != null);
     }
 
-    public static <T> int getNodeHeight(BinaryTreeNode<T> node) {
+    public static <T extends Serializable> int getNodeHeight(BinaryTreeNode<T> node) {
         if (node == null) {
             return 0;
         }
@@ -52,7 +54,7 @@ public class BinaryTreeValidator {
 
     }
 
-    public static <T> boolean isAlmostPerfectTree(BinaryTreeNode<T> node) {
+    public static <T extends Serializable> boolean isAlmostPerfectTree(BinaryTreeNode<T> node) {
         return isFullTree(node) && areChildrenSameHeight(node);
     }
 

@@ -1,6 +1,8 @@
 package com.atilio.procedural.entities;
 
-public class SubMatrix {
+import java.io.Serializable;
+
+public class SubMatrix  implements Serializable {
     private CellCoordinates initalCell;
     private int rows;
     private int columns;

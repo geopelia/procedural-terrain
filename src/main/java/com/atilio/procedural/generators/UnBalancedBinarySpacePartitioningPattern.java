@@ -7,6 +7,7 @@ import com.atilio.procedural.entities.MainMatrix;
 import com.atilio.procedural.entities.SubMatrix;
 import com.atilio.procedural.mics.BinaryTreeValidator;
 import com.atilio.procedural.mics.PrintToConsoleFunctions;
+import com.atilio.procedural.mics.TreeToStream;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -33,13 +34,15 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
         subMatrices.add(root);
         BinaryTreeNode<SubMatrix> tree = new BinaryTreeNode<>(root, null, null);
         splitSpace(subMatrices, root, recursionLevel, tree);
-        PrintToConsoleFunctions.printTreeBreadthFirst(tree, subMatrices.size());
+        System.out.println(PrintToConsoleFunctions.printTreeBreadthFirst(tree, subMatrices.size()));
         drawInMainMatrix(subMatrices);
         if (BinaryTreeValidator.isFullTree(tree)) {
             System.out.println("es completo");
         } else {
             System.out.println("no hay completo");
         }
+        String filename = "tree_" + matrixToUse.getRows() + "x" + matrixToUse.getCols() + "_";
+        TreeToStream.saveToStream(tree, filename);
     }
 
     private void drawInMainMatrix(List<SubMatrix> subMatrices) {
@@ -55,7 +58,25 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
         }
     }
 
-    private void splitSpace(List<SubMatrix> matrices, SubMatrix root, int recursionLevel,
+    private float getBetterSplitChance(SubMatrix matrix) {
+        int newRow = 0;
+        int newColumn = 0;
+        float chance = myRandom.nextFloat();
+        if (chance < 0.5) {
+            newRow = (int) Math.floor(matrix.getRows() / 2d);
+            if (newRow < 1) {
+                chance = 0.6f;
+            }
+        } else {
+            newColumn = (int) Math.floor(matrix.getColumns() / 2d);
+            if (newColumn < 1) {
+                chance = 0.1f;
+            }
+        }
+        return chance;
+    }
+
+    public void splitSpace(List<SubMatrix> matrices, SubMatrix root, int recursionLevel,
             BinaryTreeNode<SubMatrix> tree) {
         System.out.println("voy por " + recursionLevel);
         if (recursionLevel > RECURSIVITY_LEVEL) {
@@ -64,8 +85,8 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
         recursionLevel++;
         SubMatrix leftSubMatrix = null;
         SubMatrix rightSubMatrix = null;
-        float chance = myRandom.nextFloat();
-        // left child
+        float chance = getBetterSplitChance(root);
+        // left child:
         int newColsLeft = root.getColumns();
         int newRowsLeft = root.getRows();
         if (chance < 0.5) {
@@ -73,10 +94,14 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
         } else {
             newColsLeft = (int) Math.floor(root.getColumns() / 2d);
         }
-        if ((newRowsLeft * newColsLeft) > 2) {
+        if ((newRowsLeft * newColsLeft) >= 2) {
             leftSubMatrix = new SubMatrix(new CellCoordinates(root.getInitalCell()), newRowsLeft, newColsLeft);
             matrices.add(leftSubMatrix);
+        } else {
+            // We can't cut the space properly
+            return;
         }
+
         // right child
         int newColsRight = 0;
         int newRowsRight = 0;

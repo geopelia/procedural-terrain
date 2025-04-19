@@ -1,14 +1,22 @@
 package com.atilio.procedural.generators;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import com.atilio.procedural.entities.BinaryTreeNode;
+import com.atilio.procedural.entities.CellCoordinates;
 import com.atilio.procedural.entities.MainMatrix;
+import com.atilio.procedural.entities.SubMatrix;
+import com.atilio.procedural.exceptions.AppException;
+import com.atilio.procedural.mics.PrintToConsoleFunctions;
 
 class UnBalancedBinarySpacePartitioningPatternTest {
     @Test
@@ -18,7 +26,7 @@ class UnBalancedBinarySpacePartitioningPatternTest {
             UnBalancedBinarySpacePartitioningPattern pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
             pattern.process();
             Map<Integer, Integer> result = listColorsInMatrix(matrix);
-            assertEquals(2, result.keySet().size());
+            assertEquals(2, result.keySet().size(), matrix.printToExport());
             for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
                 assertEquals(2, entry.getValue());
             }
@@ -33,9 +41,43 @@ class UnBalancedBinarySpacePartitioningPatternTest {
             result = listColorsInMatrix(matrix);
             assertEquals(1, result.keySet().size(), matrix.printToExport());
 
+            matrix = new MainMatrix(1, 17);
+            pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            pattern.process();
+            result = listColorsInMatrix(matrix);
+            for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
+                assertTrue(entry.getValue() >= 2, matrix.printToExport());
+            }
+            matrix = new MainMatrix(31, 47);
+            pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            pattern.process();
+            result = listColorsInMatrix(matrix);
+            for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
+                assertTrue(entry.getValue() >= 2, matrix.printToExport());
+            }
         } catch (Exception e) {
             fail(e);
         }
+    }
+
+    @Test
+    void testSplitSpace() {
+        List<SubMatrix> subMatrices = new ArrayList<>();
+        CellCoordinates initialCell = new CellCoordinates(0, 0);
+        int recursionLevel = 0;
+        MainMatrix matrix;
+        try {
+            matrix = new MainMatrix(1, 3);
+            SubMatrix root = new SubMatrix(initialCell, matrix.getRows(), matrix.getCols());
+            subMatrices.add(root);
+            BinaryTreeNode<SubMatrix> tree = new BinaryTreeNode<>(root, null, null);
+            UnBalancedBinarySpacePartitioningPattern pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            pattern.splitSpace(subMatrices, root, recursionLevel, tree);
+            assertEquals(1, subMatrices.size(), PrintToConsoleFunctions.printTreeBreadthFirst(tree, subMatrices.size()));
+        } catch (AppException e) {
+            fail(e);
+        }
+
     }
 
     private Map<Integer, Integer> listColorsInMatrix(MainMatrix matrix) {

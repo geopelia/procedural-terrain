@@ -1,6 +1,8 @@
 package com.atilio.procedural.entities;
 
-public class CellCoordinates {
+import java.io.Serializable;
+
+public class CellCoordinates implements Serializable {
     private int row;
 
     public int getRow() {

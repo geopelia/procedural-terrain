@@ -20,7 +20,7 @@ public class App {
         int cellToUSe = 23;
         MainMatrix mainMatrix;
         try {
-            mainMatrix = new MainMatrix(1,9);
+            mainMatrix = new MainMatrix(2,3);
             mainMatrix.fillWithZero();
             MainPattern pattern;
             switch (option) {
