@@ -2,6 +2,8 @@ package com.atilio.procedural.entities;
 
 import java.util.Arrays;
 
+import org.tinylog.Logger;
+
 import com.atilio.procedural.exceptions.AppException;
 
 public class MainMatrix {
@@ -33,12 +35,15 @@ public class MainMatrix {
     }
 
     public void printMatrix() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("matrix de: ").append(rows).append("x").append(cols).append("\n");
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j]);
+                stringBuilder.append(matrix[i][j]).append(";");
             }
-            System.out.println();
+            stringBuilder.append("\n");
         }
+        Logger.info(stringBuilder.toString());
     }
 
     public int getRows() {

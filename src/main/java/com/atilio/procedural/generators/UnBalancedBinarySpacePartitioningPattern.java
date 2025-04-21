@@ -26,9 +26,6 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
 
     @Override
     public void process() {
-        // Add a current matrix as pivot
-        // Use while
-        // You don't need a complete mainmatrix, just store pos, cols and row
         List<SubMatrix> subMatrices = new ArrayList<>();
         CellCoordinates initialCell = new CellCoordinates(0, 0);
         int recursionLevel = 0;
@@ -92,7 +89,6 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
         }
         recursionLevel++;
         float chance = getBetterSplitChance(root);
-        // left child:
 
         SubMatrix leftSubMatrix = createLeftSubMatrix(root, chance);
         if (leftSubMatrix == null) {
@@ -146,9 +142,9 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
         int newRowsRight = calculateNewSize(parent.getRows(), leftSubMatrix.getRows());
         CellCoordinates cellCoordinateRight = new CellCoordinates(parent.getInitalCell());
         if (chance < 0.5) {
-            cellCoordinateRight.setRow(leftSubMatrix.getRows());
+            cellCoordinateRight.setRow(parent.getInitalCell().getRow() + leftSubMatrix.getRows());
         } else {
-            cellCoordinateRight.setColumn(leftSubMatrix.getColumns());
+            cellCoordinateRight.setColumn(parent.getInitalCell().getColumn() + leftSubMatrix.getColumns());
         }
         if (parent.isCellInMatrix(cellCoordinateRight) && ((newColsRight * newRowsRight) >= 2)) {
             return new SubMatrix(cellCoordinateRight, newRowsRight, newColsRight);
@@ -165,7 +161,7 @@ public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
         if (parentValue == adjacentValue) {
             // value didn't change
             return parentValue;
-        } else{
+        } else {
             // return the value left
             return parentValue - adjacentValue;
         }

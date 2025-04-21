@@ -1,7 +1,6 @@
 package com.atilio.procedural.panels;
 
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import com.atilio.procedural.entities.BinaryTreeNode;
 import com.atilio.procedural.entities.SubMatrix;
