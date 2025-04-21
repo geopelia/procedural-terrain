@@ -19,7 +19,6 @@ public class WindowFrame  extends JFrame {
         setTitle("Visor de arbol");
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
     }

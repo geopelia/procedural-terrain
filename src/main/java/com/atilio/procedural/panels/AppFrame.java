@@ -20,7 +20,7 @@ public class AppFrame extends JFrame  {
         add(refreshButton);
 
         JButton treeViewerButton = new JButton("Ver ultimo árbol");
-        treeViewerButton.addActionListener(e -> {new WindowFrame();});
+        treeViewerButton.addActionListener(e -> new WindowFrame());
         treeViewerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(treeViewerButton);
 

@@ -12,9 +12,10 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import org.tinylog.Logger;
 
 import com.atilio.procedural.entities.BinaryTreeNode;
 
@@ -35,7 +36,7 @@ public class TreeToStream {
             objectOutputStream.close();
 
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
         }
 
     }
@@ -50,7 +51,7 @@ public class TreeToStream {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             binaryTreeNode = (BinaryTreeNode<T>) objectInputStream.readObject();
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
         }
         return binaryTreeNode;
     }
@@ -62,7 +63,7 @@ public class TreeToStream {
                 return filename.get();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.error(e);
         }
         return "";
     }

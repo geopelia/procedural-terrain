@@ -33,10 +33,14 @@ public class TreeViewer<M extends Serializable> extends JPanel {
         if (node == null)
             return;
 
-        g.setColor(Color.BLACK);
+        g.setColor(Color.GRAY);
         g.fillOval(x - 15, y - 15, 30, 30);
-        g.setColor(Color.WHITE);
-        g.drawString(node.getElement().toString().substring(0, 10), x - 5, y + 5);
+        g.setColor(Color.RED);
+        if (node.getElement() instanceof SubMatrix subMatrix) {
+            g.drawString(subMatrix.toCompactString(), x - 5, y + 5);
+        } else {
+            g.drawString(node.toString(), x - 5, y + 5);
+        }
 
         if (node.getNodeLeft() != null) {
             g.setColor(Color.BLACK);

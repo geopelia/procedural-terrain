@@ -53,6 +53,10 @@ public class SubMatrix  implements Serializable {
         return "SubMatrix [initalCell=" + initalCell + ", rows=" + rows + ", columns=" + columns + "]";
     }
 
+    public String toCompactString() {
+        return String.format("SM (%d, %d) %dx%d", (initalCell.getRow() + 1), (initalCell.getColumn() + 1), rows, columns);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

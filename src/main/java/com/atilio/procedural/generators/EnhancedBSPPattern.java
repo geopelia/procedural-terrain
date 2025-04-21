@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.tinylog.Logger;
+
 import com.atilio.procedural.entities.BinaryTree;
-import com.atilio.procedural.entities.BinaryTreeNode;
 import com.atilio.procedural.entities.CellCoordinates;
 import com.atilio.procedural.entities.MainMatrix;
 import com.atilio.procedural.entities.SubMatrix;
 import com.atilio.procedural.mics.BinaryTreeValidator;
-import com.atilio.procedural.mics.PrintToConsoleFunctions;
 
 public class EnhancedBSPPattern  extends MainPattern{
 
@@ -59,7 +59,7 @@ public class EnhancedBSPPattern  extends MainPattern{
             binaryTree.addNode(subMatrixRight);
             size = size +2;
         }
-        System.out.println(binaryTree);
+        Logger.debug(binaryTree);
         BinaryTreeValidator.isFullTree(binaryTree.getRoot());
 
 

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.tinylog.Logger;
+
 import com.atilio.procedural.entities.BinaryTreeNode;
 
 public class PrintToConsoleFunctions {
@@ -47,12 +49,12 @@ public class PrintToConsoleFunctions {
         if (tree == null) {
             return;
         }
-        System.out.println(tree.getElement());
+        Logger.debug(tree.getElement());
         BinaryTreeNode<T> left = tree.getNodeLeft();
         BinaryTreeNode<T> right = tree.getNodeRight();
         printTreePreOrder(left);
         printTreePreOrder(right);
-        System.out.println("#########################################");
+        Logger.debug("#########################################");
     }
 
     public static boolean isInArray(int value, int[] array) {

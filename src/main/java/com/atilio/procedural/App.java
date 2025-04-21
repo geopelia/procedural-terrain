@@ -2,6 +2,8 @@ package com.atilio.procedural;
 
 import java.awt.EventQueue;
 
+import org.tinylog.Logger;
+
 import com.atilio.procedural.entities.MainMatrix;
 import com.atilio.procedural.generators.DiagonalLinePattern;
 import com.atilio.procedural.generators.EnhancedBSPPattern;
@@ -15,7 +17,7 @@ import com.atilio.procedural.panels.AppFrame;
  */
 public class App {
     public static void main(String[] args) {
-        System.out.println("Deplegando!");
+        Logger.info("Desplegando");
         int option = 3;
         int cellToUSe = 23;
         MainMatrix mainMatrix;
@@ -45,7 +47,7 @@ public class App {
             mainMatrix.printMatrix();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e);
             return;
         }
         Runnable app = () -> {
