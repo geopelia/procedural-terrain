@@ -23,7 +23,7 @@ public class BinaryTreeValidator {
             return false;
         }
         // It's a leaf
-        if (binaryTreeNode.getNodeLeft() == null && binaryTreeNode.getNodeRight() == null) {
+        if (binaryTreeNode.isLeaf()) {
             return true;
         }
         hasLeft = binaryTreeNode.getNodeLeft() != null;

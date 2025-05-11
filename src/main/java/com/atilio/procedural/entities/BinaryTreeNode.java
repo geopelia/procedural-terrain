@@ -43,4 +43,8 @@ public class BinaryTreeNode<T extends Serializable> implements Serializable {
         this.nodeRight = nodeRight;
     }
 
+    public boolean isLeaf() {
+        return this.nodeLeft == null && this.nodeRight == null;
+    }
+
 }
