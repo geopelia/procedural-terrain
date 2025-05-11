@@ -6,10 +6,10 @@ import org.tinylog.Logger;
 
 import com.atilio.procedural.entities.MainMatrix;
 import com.atilio.procedural.generators.DiagonalLinePattern;
-import com.atilio.procedural.generators.EnhancedBSPPattern;
 import com.atilio.procedural.generators.FillRandomPattern;
 import com.atilio.procedural.generators.MainPattern;
-import com.atilio.procedural.generators.UnBalancedBinarySpacePartitioningPattern;
+import com.atilio.procedural.generators.BSPWithCorridorsPattern;
+import com.atilio.procedural.generators.BinarySpacePartitioningPattern;
 import com.atilio.procedural.panels.AppFrame;
 
 /**
@@ -18,11 +18,11 @@ import com.atilio.procedural.panels.AppFrame;
 public class App {
     public static void main(String[] args) {
         Logger.info("Desplegando");
-        int option = 3;
+        int option = 4;
         int cellToUSe = 23;
         MainMatrix mainMatrix;
         try {
-            mainMatrix = new MainMatrix(8,8);
+            mainMatrix = new MainMatrix(20,20);
             mainMatrix.fillWithZero();
             MainPattern pattern;
             switch (option) {
@@ -33,11 +33,12 @@ public class App {
                     pattern = new FillRandomPattern(mainMatrix, cellToUSe);
                     break;
                 case 3:
-                    pattern = new UnBalancedBinarySpacePartitioningPattern(mainMatrix);
+                    pattern = new BinarySpacePartitioningPattern(mainMatrix);
                     break;
                 case 4:
-                    pattern = new EnhancedBSPPattern(mainMatrix);
+                    pattern = new BSPWithCorridorsPattern(mainMatrix);
                     break;
+
 
                 default:
                     pattern = new FillRandomPattern(mainMatrix, cellToUSe);

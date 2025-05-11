@@ -14,12 +14,12 @@ import java.util.Random;
 
 import org.tinylog.Logger;
 
-public class UnBalancedBinarySpacePartitioningPattern extends MainPattern {
+public class BinarySpacePartitioningPattern extends MainPattern {
 
     private Random myRandom;
     private static final int RECURSIVITY_LEVEL = 8; // max value 6 please
 
-    public UnBalancedBinarySpacePartitioningPattern(MainMatrix matrix) {
+    public BinarySpacePartitioningPattern(MainMatrix matrix) {
         super(matrix);
         myRandom = new Random();
     }

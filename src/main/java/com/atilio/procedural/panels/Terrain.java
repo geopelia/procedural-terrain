@@ -43,44 +43,14 @@ public class Terrain extends JPanel {
             for (int j = 0; j < totalRows; j++) {
                 Rectangle rectangle = new Rectangle(positionX, positionY, cellWidth, cellHeight);
                 graphics2d.draw(rectangle);
-                CustomColor customColor = availableColors.get(matrix[j][i]);
-                Color color = new Color(customColor.getRed(), customColor.getGreen(), customColor.getBlue(), 255);
+                Color color;
+                if (matrix[j][i] != -1) {
+                    CustomColor customColor = availableColors.get(matrix[j][i]);
+                    color = new Color(customColor.getRed(), customColor.getGreen(), customColor.getBlue(), 255);
+                } else {
+                    color = Color.BLACK;
+                }
                 fillWithColor(graphics2d, rectangle, color);
-                // switch (matrix[j][i]) {
-                //     case 1:
-                //         fillWithColor(graphics2d, rectangle, Color.PINK);
-                //         break;
-                //     case 2:
-                //         fillWithColor(graphics2d, rectangle, Color.CYAN);
-                //         break;
-                //     case 3:
-                //         fillWithColor(graphics2d, rectangle, Color.YELLOW);
-                //         break;
-                //     case 4:
-                //         fillWithColor(graphics2d, rectangle, Color.MAGENTA);
-                //         break;
-                //     case 5:
-                //         fillWithColor(graphics2d, rectangle, Color.GREEN);
-                //         break;
-                //     case 6:
-                //         fillWithColor(graphics2d, rectangle, Color.BLUE);
-                //         break;
-                //     case 7:
-                //         fillWithColor(graphics2d, rectangle, Color.RED);
-                //         break;
-                //     case 8:
-                //         fillWithColor(graphics2d, rectangle, Color.ORANGE);
-                //         break;
-                //     case 9:
-                //         fillWithColor(graphics2d, rectangle, Color.GRAY);
-                //         break;
-                //     case 10:
-                //         fillWithColor(graphics2d, rectangle, Color.white);
-                //         break;
-
-                //     default:
-                //         break;
-                // }
                 positionY += cellHeight + 1;
             }
             positionX += cellWidth + 1;

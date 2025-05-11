@@ -7,6 +7,7 @@ import java.util.Random;
 import com.atilio.procedural.entities.MainMatrix;
 import com.atilio.procedural.exceptions.AppException;
 
+import org.tinylog.Logger;
 public class FillRandomPattern extends MainPattern {
     private Random myRandom;
     private int rowsToUse;
@@ -29,7 +30,7 @@ public class FillRandomPattern extends MainPattern {
             try {
                 matrixToUse.setValue(position, 1);
             } catch (AppException e) {
-                e.printStackTrace();
+                Logger.error(e);
                 return;
             }
 

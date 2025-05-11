@@ -23,7 +23,7 @@ class UnBalancedBinarySpacePartitioningPatternTest {
     void testSmallTree() {
         try {
             MainMatrix matrix = new MainMatrix(2, 2);
-            UnBalancedBinarySpacePartitioningPattern pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            BinarySpacePartitioningPattern pattern = new BinarySpacePartitioningPattern(matrix);
             pattern.process();
             Map<Integer, Integer> result = listColorsInMatrix(matrix);
             assertEquals(2, result.keySet().size(), matrix.printToExport());
@@ -31,25 +31,25 @@ class UnBalancedBinarySpacePartitioningPatternTest {
                 assertEquals(2, entry.getValue());
             }
             matrix = new MainMatrix(2, 1);
-            pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            pattern = new BinarySpacePartitioningPattern(matrix);
             pattern.process();
             result = listColorsInMatrix(matrix);
             assertEquals(1, result.size());
             matrix = new MainMatrix(1, 3);
-            pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            pattern = new BinarySpacePartitioningPattern(matrix);
             pattern.process();
             result = listColorsInMatrix(matrix);
             assertEquals(1, result.keySet().size(), matrix.printToExport());
 
             matrix = new MainMatrix(1, 17);
-            pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            pattern = new BinarySpacePartitioningPattern(matrix);
             pattern.process();
             result = listColorsInMatrix(matrix);
             for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
                 assertTrue(entry.getValue() >= 2, matrix.printToExport());
             }
             matrix = new MainMatrix(31, 47);
-            pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            pattern = new BinarySpacePartitioningPattern(matrix);
             pattern.process();
             result = listColorsInMatrix(matrix);
             for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
@@ -71,7 +71,7 @@ class UnBalancedBinarySpacePartitioningPatternTest {
             SubMatrix root = new SubMatrix(initialCell, matrix.getRows(), matrix.getCols());
             subMatrices.add(root);
             BinaryTreeNode<SubMatrix> tree = new BinaryTreeNode<>(root, null, null);
-            UnBalancedBinarySpacePartitioningPattern pattern = new UnBalancedBinarySpacePartitioningPattern(matrix);
+            BinarySpacePartitioningPattern pattern = new BinarySpacePartitioningPattern(matrix);
             pattern.splitSpace(subMatrices, root, recursionLevel, tree);
             assertEquals(1, subMatrices.size(), PrintToConsoleFunctions.printTreeBreadthFirst(tree, subMatrices.size()));
         } catch (AppException e) {
