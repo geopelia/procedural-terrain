@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -108,6 +110,61 @@ public class TreeLeafFinder {
         }
         return leaves.stream().map(e -> e.getElement()).toList();
 
+    }
+
+    public static <T extends Serializable> BinaryTreeNode<T> getParentOfNode(
+            Map<BinaryTreeNode<T>, Set<BinaryTreeNode<T>>> parentsAndChildrenNodes, BinaryTreeNode<T> value)
+            throws AppException {
+        Optional<BinaryTreeNode<T>> optionalParent = parentsAndChildrenNodes.entrySet().stream()
+                .filter(entry -> entry.getValue().contains(value))
+                .map(Entry::getKey).findFirst();
+        if (optionalParent.isPresent()) {
+            return optionalParent.get();
+        } else {
+            throw new AppException("El nodo indicado no tiene padre :( ");
+        }
+
+    }
+
+    public static <T extends Serializable> Set<BinaryTreeNode<T>> getRandomSubsetWithoutSharingParents(
+            Map<BinaryTreeNode<T>, Set<BinaryTreeNode<T>>> parentsAndChildrenNodes, Set<BinaryTreeNode<T>> allLeaves,
+            int subsetSize) throws AppException {
+        List<BinaryTreeNode<T>> randomSubset = new ArrayList<>();
+        Set<BinaryTreeNode<T>> childsToRemove;
+        int pivotSize = subsetSize;
+        do {
+            randomSubset.addAll(getRandomSubset(allLeaves, pivotSize));
+            childsToRemove = getSiblingsToDelete(parentsAndChildrenNodes, randomSubset);
+            allLeaves.removeAll(randomSubset);
+            randomSubset.removeAll(childsToRemove);
+
+            pivotSize = allLeaves.size() - childsToRemove.size();
+            if (randomSubset.size() == subsetSize || pivotSize <= 0) {
+                break;
+            }
+
+        } while (!childsToRemove.isEmpty() || !allLeaves.isEmpty() || pivotSize >= 0);
+        while (randomSubset.size() > subsetSize) {
+            randomSubset.remove(0);
+        }
+        return new HashSet<>(randomSubset);
+    }
+
+    private static <T extends Serializable> Set<BinaryTreeNode<T>> getSiblingsToDelete(
+            Map<BinaryTreeNode<T>, Set<BinaryTreeNode<T>>> parentsAndChildrenNodes,
+            List<BinaryTreeNode<T>> randomSubset)
+            throws AppException {
+        Set<BinaryTreeNode<T>> parents = new HashSet<>();
+        Set<BinaryTreeNode<T>> childsToRemove = new HashSet<>();
+        for (BinaryTreeNode<T> currentBinaryTreeNode : randomSubset) {
+            BinaryTreeNode<T> currentParent = getParentOfNode(parentsAndChildrenNodes, currentBinaryTreeNode);
+            if (parents.contains(currentParent)) {
+                childsToRemove.add(currentBinaryTreeNode);
+            } else {
+                parents.add(currentParent);
+            }
+        }
+        return childsToRemove;
     }
 
 }

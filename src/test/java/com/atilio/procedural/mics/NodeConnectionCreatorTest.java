@@ -2,11 +2,14 @@ package com.atilio.procedural.mics;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import com.atilio.procedural.entities.BinaryTree;
 import com.atilio.procedural.entities.BinaryTreeNode;
+import com.atilio.procedural.entities.BinaryTreeString;
 import com.atilio.procedural.entities.CellCoordinates;
 import com.atilio.procedural.entities.SubMatrix;
 import com.atilio.procedural.exceptions.AppException;
@@ -191,6 +195,116 @@ class NodeConnectionCreatorTest {
         assertEquals(2, list.size());
         assertTrue(list.contains("d"));
         assertTrue(list.contains("f"));
+
+    }
+
+    @Test
+    void getParentsFromChilds() {
+        BinaryTreeNode<String> binaryTreeNodeD = new BinaryTreeNode<String>("d");
+        BinaryTreeNode<String> binaryTreeNodeF = new BinaryTreeNode<String>("f");
+        BinaryTreeNode<String> binaryTreeNodeG = new BinaryTreeNode<String>("g");
+        BinaryTreeNode<String> binaryTreeNodeH = new BinaryTreeNode<String>("h");
+        BinaryTreeNode<String> binaryTreeNodeB = new BinaryTreeNode<String>("b", binaryTreeNodeD, binaryTreeNodeF);
+        BinaryTreeNode<String> binaryTreeNodeC = new BinaryTreeNode<String>("c", binaryTreeNodeG, binaryTreeNodeH);
+        BinaryTreeNode<String> root = new BinaryTreeNode<String>("a", binaryTreeNodeB, binaryTreeNodeC);
+        Map<BinaryTreeNode<String>, Set<BinaryTreeNode<String>>> leafAndParents = TreeLeafFinder
+                .getLeafAndParents(root);
+        try {
+            BinaryTreeNode<String> parent = TreeLeafFinder.getParentOfNode(leafAndParents, binaryTreeNodeD);
+            assertEquals(binaryTreeNodeB, parent);
+            assertThrowsExactly(AppException.class, () -> {
+                TreeLeafFinder.getParentOfNode(leafAndParents, binaryTreeNodeB);
+            });
+            parent = TreeLeafFinder.getParentOfNode(leafAndParents, binaryTreeNodeF);
+            assertNotEquals(root, parent);
+            assertNotEquals(binaryTreeNodeH, parent);
+            assertNotEquals(binaryTreeNodeC, parent);
+            assertEquals(binaryTreeNodeB, parent);
+
+        } catch (Exception e) {
+            fail(e);
+        }
+
+    }
+
+    @Test
+    void getParentsFromChilds2() {
+        BinaryTreeString binaryTreeString = new BinaryTreeString();
+        int quantityElements = 15;
+        for (int i = 0; i < quantityElements; i++) {
+            binaryTreeString.addNode(String.valueOf(i + 1));
+        }
+        BinaryTreeNode<String> root2 = binaryTreeString.getRoot();
+        Map<BinaryTreeNode<String>, Set<BinaryTreeNode<String>>> leafAndParents2 = TreeLeafFinder
+                .getLeafAndParents(root2);
+        Set<BinaryTreeNode<String>> leaves = TreeLeafFinder.getLeaves(leafAndParents2);
+        try {
+            BinaryTreeNode<String> leaf = null;
+            leaf = getSpecificLeaf("14", leaves);
+            assertNotNull(leaf);
+            BinaryTreeNode<String> parent2 = TreeLeafFinder.getParentOfNode(leafAndParents2, leaf);
+            assertEquals("7", parent2.getElement());
+            leaf = getSpecificLeaf("9", leaves);
+            assertNotNull(leaf);
+            parent2 = TreeLeafFinder.getParentOfNode(leafAndParents2, leaf);
+            assertEquals("4", parent2.getElement());
+            leaf = getSpecificLeaf("8", leaves);
+            parent2 = TreeLeafFinder.getParentOfNode(leafAndParents2, leaf);
+            assertEquals("4", parent2.getElement());
+        } catch (AppException e) {
+            fail(e);
+        }
+
+    }
+
+    BinaryTreeNode<String> getSpecificLeaf(String value, Set<BinaryTreeNode<String>> leaves) {
+        for (BinaryTreeNode<String> binaryTreeNode : leaves) {
+            if (binaryTreeNode.getElement().equals(value)) {
+                return binaryTreeNode;
+            }
+        }
+        return null;
+    }
+
+    @Test
+    void testShuffleAndParents1() {
+        testShuffleAndParents(3, 1, 1);
+        testShuffleAndParents(7, 2, 2);
+        testShuffleAndParents(15, 4, 4);
+        testShuffleAndParents(3, 3, 1);
+        testShuffleAndParents(7, 4, 2);
+        testShuffleAndParents(15, 10, 4);
+        testShuffleAndParents(7, 1, 1);
+        testShuffleAndParents(15, 2, 2);
+
+    }
+
+    void testShuffleAndParents(int size, int subset, int expected) {
+        BinaryTree binaryTree = createBinaryTree(size);
+        BinaryTreeNode<SubMatrix> rootNode = binaryTree.getRoot();
+        Map<BinaryTreeNode<SubMatrix>, Set<BinaryTreeNode<SubMatrix>>> leafAndParents = TreeLeafFinder
+                .getLeafAndParents(rootNode);
+
+        Set<BinaryTreeNode<SubMatrix>> leaves = TreeLeafFinder.getOnlyLeaves(rootNode);
+        Set<BinaryTreeNode<SubMatrix>> selected = null;
+        Set<BinaryTreeNode<SubMatrix>> parents = new HashSet<>();
+        try {
+            selected = TreeLeafFinder.getRandomSubsetWithoutSharingParents(leafAndParents, leaves, subset);
+
+            assertNotNull(selected);
+            for (BinaryTreeNode<SubMatrix> binaryTreeNode : selected) {
+                BinaryTreeNode<SubMatrix> parent = TreeLeafFinder.getParentOfNode(leafAndParents, binaryTreeNode);
+                if (parents.contains(parent)) {
+                    System.out.println("paso algo");
+                    fail("hay hermanos");
+                } else {
+                    parents.add(parent);
+                }
+            }
+        } catch (AppException e) {
+            fail(e);
+        }
+        assertEquals(expected, selected.size());
 
     }
 

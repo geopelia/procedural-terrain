@@ -1,0 +1,6 @@
+# ESTO NO SIRVE
+- Identificar los nodos hoja.
+- Identificar los nodos hojas hermanos.
+- Trazar conexión entre los hermanos
+- Ir al padre de cada hermano
+- Trazar conexión entre los hermanos de cada padre de hoja.
