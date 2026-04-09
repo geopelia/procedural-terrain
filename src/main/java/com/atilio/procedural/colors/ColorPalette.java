@@ -1,4 +1,4 @@
-package com.atilio.procedural.mics;
+package com.atilio.procedural.colors;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.Scanner;
 import com.atilio.procedural.entities.CustomColor;
 
 public class ColorPalette {
+
     private ColorPalette() {
 
     }
@@ -44,4 +45,5 @@ public class ColorPalette {
         return myColors;
 
     }
+
 }

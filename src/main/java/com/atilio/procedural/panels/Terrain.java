@@ -1,27 +1,46 @@
 package com.atilio.procedural.panels;
 
-import javax.swing.JPanel;
-
-import com.atilio.procedural.entities.CustomColor;
-import com.atilio.procedural.mics.ColorPalette;
-
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Color;
 import java.awt.Rectangle;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JPanel;
+
+import org.tinylog.Logger;
+
+import com.atilio.procedural.colors.ColorChooser;
+import com.atilio.procedural.colors.ColorPalette;
+import com.atilio.procedural.entities.CustomColor;
+import com.atilio.procedural.exceptions.AppException;
 
 public class Terrain extends JPanel {
     private final int[][] matrix;
     private static final Color DEFAULT_COLOR = Color.black;
-    private transient List<CustomColor> availableColors;
+    private Map<Integer, CustomColor> colorsPalette;
 
     public Terrain(int[][] matrix) {
         this.matrix = matrix;
-        availableColors = ColorPalette.loadPalette();
+        colorsPalette = new HashMap<>();
+        try {
+            getColorsToUse();
+        } catch (AppException e) {
+            Logger.error(e);
+            setVisible(false);
+        }
+
     }
 
-    private void doDrawing(Graphics arg0) {
+    private void getColorsToUse() throws AppException {
+        ColorChooser colorChooser = new ColorChooser(ColorPalette.loadPalette());
+        colorsPalette = colorChooser.calculateColorsMap(matrix);
+
+    }
+
+    private void doDrawing(Graphics arg0) throws AppException {
+
         Graphics2D graphics2d = (Graphics2D) arg0;
         graphics2d.setPaint(DEFAULT_COLOR);
         int totalRows = matrix.length;
@@ -43,44 +62,12 @@ public class Terrain extends JPanel {
             for (int j = 0; j < totalRows; j++) {
                 Rectangle rectangle = new Rectangle(positionX, positionY, cellWidth, cellHeight);
                 graphics2d.draw(rectangle);
-                CustomColor customColor = availableColors.get(matrix[j][i]);
+                CustomColor customColor = this.colorsPalette.get(matrix[j][i]);
+                if (customColor == null) {
+                    throw new AppException("No tengo color para la casilla " + matrix[j][i]);
+                }
                 Color color = new Color(customColor.getRed(), customColor.getGreen(), customColor.getBlue(), 255);
                 fillWithColor(graphics2d, rectangle, color);
-                // switch (matrix[j][i]) {
-                //     case 1:
-                //         fillWithColor(graphics2d, rectangle, Color.PINK);
-                //         break;
-                //     case 2:
-                //         fillWithColor(graphics2d, rectangle, Color.CYAN);
-                //         break;
-                //     case 3:
-                //         fillWithColor(graphics2d, rectangle, Color.YELLOW);
-                //         break;
-                //     case 4:
-                //         fillWithColor(graphics2d, rectangle, Color.MAGENTA);
-                //         break;
-                //     case 5:
-                //         fillWithColor(graphics2d, rectangle, Color.GREEN);
-                //         break;
-                //     case 6:
-                //         fillWithColor(graphics2d, rectangle, Color.BLUE);
-                //         break;
-                //     case 7:
-                //         fillWithColor(graphics2d, rectangle, Color.RED);
-                //         break;
-                //     case 8:
-                //         fillWithColor(graphics2d, rectangle, Color.ORANGE);
-                //         break;
-                //     case 9:
-                //         fillWithColor(graphics2d, rectangle, Color.GRAY);
-                //         break;
-                //     case 10:
-                //         fillWithColor(graphics2d, rectangle, Color.white);
-                //         break;
-
-                //     default:
-                //         break;
-                // }
                 positionY += cellHeight + 1;
             }
             positionX += cellWidth + 1;
@@ -97,7 +84,12 @@ public class Terrain extends JPanel {
     @Override
     protected void paintComponent(Graphics arg0) {
         super.paintComponent(arg0);
-        doDrawing(arg0);
+        try {
+            doDrawing(arg0);
+        } catch (AppException e) {
+            Logger.error(e);
+            setVisible(false);
+        }
     }
 
 }

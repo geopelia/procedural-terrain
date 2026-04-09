@@ -1,6 +1,7 @@
 package com.atilio.procedural;
 
 import java.awt.EventQueue;
+import java.awt.Frame;
 
 import org.tinylog.Logger;
 
@@ -22,7 +23,7 @@ public class App {
         int cellToUSe = 23;
         MainMatrix mainMatrix;
         try {
-            mainMatrix = new MainMatrix(8,8);
+            mainMatrix = new MainMatrix(17,16);
             mainMatrix.fillWithZero();
             MainPattern pattern;
             switch (option) {
@@ -54,6 +55,7 @@ public class App {
             AppFrame appFrame;
             appFrame = new AppFrame(mainMatrix.getMatrix());
             appFrame.setVisible(true);
+            appFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
         };
         EventQueue.invokeLater(app);
     }
